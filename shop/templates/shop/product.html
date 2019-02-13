@@ -1,0 +1,47 @@
+{% extends "shop/base.html" %}
+{% load staticfiles%}
+{%block metadescription%}
+    {{product.description|truncatewords:100}}}
+{% endblock %}
+{% block title %}
+{{products.name}}- Perfect cushion store
+{% endblock %}
+
+{% block content %}
+<div class=" row my_prod_row_class">
+  <div class ="mx-auto">
+        <p><a href="{% url 'shop:allProductCat'%}">Home</a> | <a href ="{{ products.category.get_url }}"> {{products.category}}</a> | {{products.name}}</p>
+    </div>
+
+<div class="container">
+    <br>
+    <div class="row">
+         <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center" >
+              <div style="min-width: 18rem">
+                <img src="{{products.image.url}}" alt="{{products.name}}">
+                   </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                        <div class="my_product_title">
+                        <h4><b>{{products.name}}</b></h4>
+                            <p><b>Price</b>>${{products.price}}</p>
+                            <h4>Product Description</h4>
+                        <p class="my_title">{{products.decription}}</p>
+                        {% if products.stock <= 0 %}
+                            <p><b>Out of stock</b></p>
+                        {% else %}
+                            <p><b> Availability of Cushions : </b> {{products.stock}}</p>
+                        <a href = "btn btn-secondary"> Add to Cart</a>
+                        {% endif %}
+                        </div>
+                    </div>
+
+    </div>
+</div>
+</div>
+
+
+
+
+
+{% endblock %}

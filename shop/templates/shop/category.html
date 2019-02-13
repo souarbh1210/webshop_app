@@ -1,0 +1,79 @@
+{% extends "shop/base.html"%}
+{% load staticfiles %}
+{%block metadescription%}
+{% if category %}
+    {{category.description|truncatewords:100}}
+{% else %}
+    Welcome to Gaurav ji store where you can buy anything u want.
+{% endif %}
+{% endblock %}
+{% block title %}
+{% if category %}
+    {{category.name}}-Perfect product of Gaurav Store
+{% else %}
+    See our collection in Gaurav ji store.
+{% endif %}
+{% endblock %}
+{% block content %}
+ {% if category %}
+<div class=" row my_row_class">
+  <div class ="mx-auto">
+    <p><a href="{%url 'shop:allProductCat'%}">Our Product Collection</a>|{{category.name}}</p>
+  </div>
+</div>
+ {% endif %}
+     <div class ="mx-auto">
+     {% if category %}
+     <img class = "my_image" src ="{%static 'media/Category/cotton-products.jpg '%}" alt="hiiiii{{category.name}}">
+     </div>
+ <br>
+     <div>
+
+        <h1 class = 'text-center my_title'> {{category.name}}</h1>
+        <p class = "text-justify">{{category.description}}</p>
+
+
+
+    {% else %}
+    <img class = "my_image my_image_padding" src ="{%static 'img/banner.jpg '%}" alt="{{category.name}}">
+</div>
+
+<br><br><br>
+    <h1 class = 'text-center my_title'>Our Product Collection </h1>
+    <h3 class = "text-justify" >Special offers and product promotions</h3>
+    <ul>
+        <li>No cost EMI available on HDFC credit cards on orders above Rs.3000 and on HDFC debit cards on orders above Rs.10,000 Here's how (terms and conditions apply) </li>
+        <li>Get 5% cashback up to Rs.25 using BHIM UPI. Applicable only once per customer. Cashback will be credited as Amazon Pay balance within 10 days. Here's how (terms and conditions apply) </li>
+        <li>Save up to Rs 2400 a year; Earn 2% cash back on every order with Amazon Pay balance. Sign up now! Here's how (terms and conditions apply) </li>
+    </ul>
+ {% endif %}
+<div class="container">
+    <div class="row mx-auto">
+        {% for product in products.object_list %}
+
+            <div class="my bottom_margin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
+                <div  class="card text-center" style="min-width: 18rem;">
+                <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}" alt="{{product.name}}"></a>
+                    <div class="card-body">
+                        <h4>{{product.name}}</h4>
+                        <p>${{product.price}}</p>
+                    </div>
+                </div>
+             </div>
+        {% endfor %}
+    </div>
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+        <hr>
+        <div class = "text-center">
+            {% for  pg in products.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.name == pg %}active{% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+
+        {% endif%}
+    </div>
+    <br>
+</div>
+
+{% endblock %}
